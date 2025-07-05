@@ -30,10 +30,16 @@ class AlarmManager {
         case .daily:
             trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
         case .weekly:
-            dateComponents.weekday = Calendar.current.component(.weekday, from: Date())
+            var tzCalendar = Calendar.current
+            tzCalendar.timeZone = alarm.timeZone
+            // Use the alarm's timezone to find the weekday
+            dateComponents.weekday = tzCalendar.component(.weekday, from: alarm.time)
             trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
         case .monthly:
-            dateComponents.day = Calendar.current.component(.day, from: Date())
+            var tzCalendar = Calendar.current
+            tzCalendar.timeZone = alarm.timeZone
+            // Use the alarm's timezone to find the day of month
+            dateComponents.day = tzCalendar.component(.day, from: alarm.time)
             trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
         }
 
