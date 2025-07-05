@@ -70,7 +70,7 @@ struct ContentView: View {
                         }
                         .swipeActions(edge: .trailing) {
                             Button(role: .destructive) {
-                                confirmDelete(alarm: alarm)
+                                deleteAlarm(alarm: alarm)
                             } label: {
                                 Label("Eliminar", systemImage: "trash")
                             }
@@ -161,7 +161,7 @@ struct ContentView: View {
         editingAlarm = alarm
     }
 
-    func confirmDelete(alarm: Alarm) {
+    func deleteAlarm(alarm: Alarm) {
         AlarmManager.shared.cancelAlarm(id: alarm.id)
         alarms.removeAll { $0.id == alarm.id }
     }
