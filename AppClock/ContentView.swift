@@ -110,7 +110,7 @@ struct ContentView: View {
         destCalendar.timeZone = selectedTimeZone
 
         let now = Date()
-        let timeComponents = calendar.dateComponents([.hour, .minute], from: selectedTime)
+        let timeComponents = destCalendar.dateComponents([.hour, .minute], from: selectedTime)
         let destinationComponents = DateComponents(
             year: calendar.component(.year, from: now),
             month: calendar.component(.month, from: now),

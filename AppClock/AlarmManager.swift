@@ -19,7 +19,9 @@ class AlarmManager {
         content.body = "Son las \(formattedTime(alarm.time, in: alarm.timeZone)) en \(alarm.timeZone.identifier)"
         content.sound = .default
 
-        var dateComponents = Calendar.current.dateComponents([.hour, .minute], from: alarm.time)
+        var calendar = Calendar.current
+        calendar.timeZone = alarm.timeZone
+        var dateComponents = calendar.dateComponents([.hour, .minute], from: alarm.time)
         dateComponents.timeZone = alarm.timeZone
 
         let trigger: UNNotificationTrigger
@@ -30,10 +32,10 @@ class AlarmManager {
         case .daily:
             trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
         case .weekly:
-            dateComponents.weekday = Calendar.current.component(.weekday, from: Date())
+            dateComponents.weekday = calendar.component(.weekday, from: alarm.time)
             trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
         case .monthly:
-            dateComponents.day = Calendar.current.component(.day, from: Date())
+            dateComponents.day = calendar.component(.day, from: alarm.time)
             trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
         }
 
